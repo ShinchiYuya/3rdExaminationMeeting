@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float _speed;
-    [SerializeField] float _jumpForce;
-    [SerializeField] float _gravPower;
+    [SerializeField] float _speed = 10f;
+    [SerializeField] float _jumpForce = 10f; // 適切な値に調整
+    [SerializeField] float _gravPower = 20f;
 
     bool isGrounded = true;
     Rigidbody _rb;
@@ -12,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _rb.useGravity = false;
+        _rb.useGravity = true; // 重力を有効にする
     }
 
     void Update()
@@ -32,27 +33,29 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        Vector3 moveDirection = Vector3.zero;
+        Vector3 moveDirection = _rb.velocity;
 
         if (Input.GetKey(KeyCode.W))
-            moveDirection += transform.forward;
+            moveDirection += Vector3.forward;
         if (Input.GetKey(KeyCode.S))
-            moveDirection -= transform.forward;
+            moveDirection += Vector3.back;
         if (Input.GetKey(KeyCode.A))
-            moveDirection -= transform.right;
+            moveDirection += Vector3.left;
         if (Input.GetKey(KeyCode.D))
-            moveDirection += transform.right;
-
+            moveDirection += Vector3.right;
         moveDirection.Normalize(); // すべての入力を正規化してから速度を適用
-        _rb.velocity = moveDirection * _speed;
+        moveDirection.y = _rb.velocity.y;
+        moveDirection.x *= _speed;
+        moveDirection.z *= _speed;
+        _rb.velocity = moveDirection;
     }
 
     void Jump()
     {
-        if (Input.GetKey(KeyCode.Space) && isGrounded)
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) // GetKeyDown を使用して1回だけジャンプできるようにする
         {
-            _rb.velocity = new Vector3(_rb.velocity.x, _jumpForce, _rb.velocity.z);
-            isGrounded = false; // ジャンプしたら接地状態を解除
+            _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse); // 上向きの力を追加
+            isGrounded = false;
         }
     }
 
@@ -73,4 +76,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
 }
