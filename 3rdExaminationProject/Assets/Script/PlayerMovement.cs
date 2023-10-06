@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 rayOrigin = transform.position;
         Vector3 rayDirection = Vector3.down;
-        float rayLength = 1.0f;
+        float rayLength = .5f;
 
         RaycastHit hit;
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength))
