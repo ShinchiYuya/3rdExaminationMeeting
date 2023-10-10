@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -19,8 +20,13 @@ public class PlayerMovement : MonoBehaviour
     {
         Gravity();
         Move();
-        Jump();
+        //Jump();
         Raycast();
+    }
+
+    void FixedUpdate()
+    {
+        Jump();
     }
 
     void Gravity()
@@ -42,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
             moveDirection += Vector3.left;
         if (Input.GetKey(KeyCode.D))
             moveDirection += Vector3.right;
+
         moveDirection.Normalize(); // すべての入力を正規化してから速度を適用
         moveDirection.y = _rb.velocity.y;
         moveDirection.x *= _speed;
@@ -63,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) // GetKeyDown を使用して1回だけジャンプできるようにする
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) // Space を使用して1回だけジャンプできるようにする
         {
             _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse); // 上向きの力を追加
             isGrounded = false;
@@ -77,14 +84,7 @@ public class PlayerMovement : MonoBehaviour
         float rayLength = .5f;
 
         RaycastHit hit;
-        if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength))
-        {
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
-        }
+        isGrounded = (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength) ? true : false);
     }
 
     void OnCollisionEnter(Collision collision)

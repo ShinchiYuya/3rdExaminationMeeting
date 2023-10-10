@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 86497686}
   - component: {fileID: 86497685}
   - component: {fileID: 86497684}
+  - component: {fileID: 86497688}
   - component: {fileID: 86497683}
   m_Layer: 0
   m_Name: Enemy
@@ -235,6 +236,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &86497688
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86497682}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &431231523
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,7 +991,7 @@ MonoBehaviour:
   m_ZDamping: 1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
-  m_YawDamping: 3
+  m_YawDamping: 4.5
   m_RollDamping: 0
   m_AngularDamping: 0
 --- !u!114 &1610115091
