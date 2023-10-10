@@ -89,9 +89,6 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
+        isGrounded = (collision.gameObject.CompareTag("Ground") ? true : false);
     }
 }
