@@ -47,6 +47,18 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.x *= _speed;
         moveDirection.z *= _speed;
         _rb.velocity = moveDirection;
+
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+        Vector3 dir = Vector3.forward * v + Vector3.right * h;
+        // カメラのローカル座標系を基準に dir を変換する
+        dir = Camera.main.transform.TransformDirection(dir);
+        // カメラは斜め下に向いているので、Y 軸の値を 0 にして「XZ 平面上のベクトル」にする
+        dir.y = 0;
+        // 移動の入力がない時は回転させない。入力がある時はその方向にキャラクターを向ける。
+        if (dir != Vector3.zero) this.transform.forward = dir;
+        _rb.velocity = dir.normalized * _speed;
     }
 
     void Jump()
