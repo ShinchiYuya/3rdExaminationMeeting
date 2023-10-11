@@ -94,18 +94,18 @@ public class PlayerMovement : MonoBehaviour
 
     void PlayerAnim()
     {
-        float h = Input.GetAxis("Horizontal");
+        //float h = Input.GetAxis("Horizontal");
         
-        if (h >= 0.1)
-        {
-            animator.SetBool("PlayerWalk", true);
-            Debug.Log("h > 0.1");
-        }
-        else
-        {
-            animator.SetBool("PlayerWalk", false);
-            Debug.Log("h <= 0.1");
-        }
+        //if (h >= 0.1 || -h >= 0.1)
+        //{
+        //    animator.SetBool("PlayerWalk", true);
+        //    Debug.Log("h > 0.1");
+        //}
+        //else
+        //{
+        //    animator.SetBool("PlayerWalk", false);
+        //    Debug.Log("h <= 0.1");
+        //}
     }
 
     void OnCollisionEnter(Collision collision)
