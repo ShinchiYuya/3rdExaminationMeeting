@@ -7,13 +7,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _speed = 10f;
     [SerializeField] float _jumpForce = 10f; // 適切な値に調整
     [SerializeField] float _gravPower = 20f;
+    [SerializeField] Animator Walk;
 
     bool isGrounded = true;
+    Animator animator;
     Rigidbody _rb;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
         _rb.useGravity = true; // 重力を有効にする
     }
 
@@ -23,12 +26,9 @@ public class PlayerMovement : MonoBehaviour
         Move();
         Jump();
         Raycast();
+        //PlayerAnim();
     }
 
-    void FixedUpdate()
-    {
-        //Jump();
-    }
 
     void Gravity()
     {
@@ -69,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.x *= _speed;
         moveDirection.z *= _speed;
         _rb.velocity = moveDirection;
+
+        PlayerAnim();
     }
 
     void Jump()
@@ -90,13 +92,21 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength) ? true : false);
     }
 
-    //void PlayerAnim()
-    //{
-    //    if (h >= 0.1)
-    //    {
-    //        OnAnimatorM
-    //    }
-    //}
+    void PlayerAnim()
+    {
+        float h = Input.GetAxis("Horizontal");
+        
+        if (h >= 0.1)
+        {
+            animator.SetBool("PlayerWalk", true);
+            Debug.Log("h > 0.1");
+        }
+        else
+        {
+            animator.SetBool("PlayerWalk", false);
+            Debug.Log("h <= 0.1");
+        }
+    }
 
     void OnCollisionEnter(Collision collision)
     {
