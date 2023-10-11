@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -20,13 +21,13 @@ public class PlayerMovement : MonoBehaviour
     {
         Gravity();
         Move();
-        //Jump();
+        Jump();
         Raycast();
     }
 
     void FixedUpdate()
     {
-        Jump();
+        //Jump();
     }
 
     void Gravity()
@@ -38,6 +39,20 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+        Vector3 dir = Vector3.forward * v + Vector3.right * h;
+        // カメラのローカル座標系を基準に dir を変換する
+        dir = Camera.main.transform.TransformDirection(dir);
+        // カメラは斜め下に向いているので、Y 軸の値を 0 にして「XZ 平面上のベクトル」にする
+        dir.y = 0;
+        // 移動の入力がない時は回転させない。入力がある時はその方向にキャラクターを向ける。
+        if (dir != Vector3.zero) this.transform.forward = dir;
+        dir = dir.normalized * _speed;
+        dir.y = _rb.velocity.y;
+        _rb.velocity = dir;
+
         Vector3 moveDirection = _rb.velocity;
 
         if (Input.GetKey(KeyCode.W))
@@ -54,18 +69,6 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.x *= _speed;
         moveDirection.z *= _speed;
         _rb.velocity = moveDirection;
-
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-
-        Vector3 dir = Vector3.forward * v + Vector3.right * h;
-        // カメラのローカル座標系を基準に dir を変換する
-        dir = Camera.main.transform.TransformDirection(dir);
-        // カメラは斜め下に向いているので、Y 軸の値を 0 にして「XZ 平面上のベクトル」にする
-        dir.y = 0;
-        // 移動の入力がない時は回転させない。入力がある時はその方向にキャラクターを向ける。
-        if (dir != Vector3.zero) this.transform.forward = dir;
-        _rb.velocity = dir.normalized * _speed;
     }
 
     void Jump()
@@ -86,6 +89,14 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         isGrounded = (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength) ? true : false);
     }
+
+    //void PlayerAnim()
+    //{
+    //    if (h >= 0.1)
+    //    {
+    //        OnAnimatorM
+    //    }
+    //}
 
     void OnCollisionEnter(Collision collision)
     {
