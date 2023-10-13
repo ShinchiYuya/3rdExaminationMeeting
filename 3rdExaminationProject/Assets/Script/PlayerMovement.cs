@@ -9,11 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _gravPower = 20f;
 
     bool isGrounded = true;
-    bool isIdle = true;
-    bool isWalk = false;
-    bool isJump = false;
-    bool isDead = false;
-    
+
     Animator animator;
     Rigidbody _rb;
 
@@ -83,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse); // è„å¸Ç´ÇÃóÕÇí«â¡
             isGrounded = false;
+            JumpAnim();
         }
     }
 
@@ -98,11 +95,18 @@ public class PlayerMovement : MonoBehaviour
 
     void MoveAnim()
     {
+        float h = Input.GetAxisRaw("Horizontal");
+        animator.SetFloat("WalkSpd", h);
+    }
 
+    void JumpAnim()
+    {
+        //animator.SetBool("isJump", true);
     }
 
     void OnCollisionEnter(Collision collision)
     {
         isGrounded = collision.gameObject.CompareTag("Ground") ? true : false;
+        //if (isGrounded)  animator.SetBool("isJump", false);
     }
 }
