@@ -7,9 +7,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _speed = 10f;
     [SerializeField] float _jumpForce = 10f; // “KØ‚È’l‚É’²®
     [SerializeField] float _gravPower = 20f;
-    [SerializeField] Animator Walk;
 
     bool isGrounded = true;
+    bool isIdle = true;
+    bool isWalk = false;
+    bool isJump = false;
+    bool isDead = false;
+    
     Animator animator;
     Rigidbody _rb;
 
@@ -26,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
         Move();
         Jump();
         Raycast();
-        //PlayerAnim();
+        //MoveAnim();
     }
 
 
@@ -70,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.z *= _speed;
         _rb.velocity = moveDirection;
 
-        PlayerAnim();
+        MoveAnim();
     }
 
     void Jump()
@@ -89,27 +93,16 @@ public class PlayerMovement : MonoBehaviour
         float rayLength = .5f;
 
         RaycastHit hit;
-        isGrounded = (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength) ? true : false);
+        isGrounded = Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength) ? true : false;
     }
 
-    void PlayerAnim()
+    void MoveAnim()
     {
-        //float h = Input.GetAxis("Horizontal");
-        
-        //if (h >= 0.1 || -h >= 0.1)
-        //{
-        //    animator.SetBool("PlayerWalk", true);
-        //    Debug.Log("h > 0.1");
-        //}
-        //else
-        //{
-        //    animator.SetBool("PlayerWalk", false);
-        //    Debug.Log("h <= 0.1");
-        //}
+
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        isGrounded = (collision.gameObject.CompareTag("Ground") ? true : false);
+        isGrounded = collision.gameObject.CompareTag("Ground") ? true : false;
     }
 }
