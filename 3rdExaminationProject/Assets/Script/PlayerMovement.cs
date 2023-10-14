@@ -1,12 +1,12 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float _speed = 10f;
-    [SerializeField] float _jumpForce = 10f; // 適切な値に調整
-    [SerializeField] float _gravPower = 20f;
+    [SerializeField] float _jumpForce = 15f; // 適切な値に調整
+    [SerializeField] float _gravPower = 10f;
+    [SerializeField] GameObject slash;
+    [SerializeField] Transform player;
 
     bool isGrounded = true;
 
@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        Attack();
         Gravity();
         Move();
         Jump();
@@ -83,6 +84,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void Attack()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+
+        }
+    }
+
     void Raycast()
     {
         Vector3 rayOrigin = transform.position;
@@ -96,7 +105,9 @@ public class PlayerMovement : MonoBehaviour
     void MoveAnim()
     {
         float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
         animator.SetFloat("WalkSpd", h);
+        animator.SetFloat("WalkSpd", v);
     }
 
     void JumpAnim()
