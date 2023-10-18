@@ -5,8 +5,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _speed = 10f;
     [SerializeField] float _jumpForce = 15f; // ìKêÿÇ»ílÇ…í≤êÆ
     [SerializeField] float _gravPower = 10f;
-    [SerializeField] GameObject slash;
     [SerializeField] Transform player;
+    [SerializeField] Animation atkAnim;
 
     bool isGrounded = true;
 
@@ -88,7 +88,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-
+            PlayerAttackCon.Instance.Atk();
+            //animator.SetBool("Attack", true);
         }
     }
 
