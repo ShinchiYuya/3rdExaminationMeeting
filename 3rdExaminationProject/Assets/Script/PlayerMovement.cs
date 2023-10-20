@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Animation atkAnim;
 
     bool isGrounded = true;
+    bool atk = false;
 
     Animator animator;
     Rigidbody _rb;
@@ -26,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
         Gravity();
         Move();
         Jump();
-        Raycast();
+        //Raycast();
         //MoveAnim();
     }
 
@@ -71,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.z *= _speed;
         _rb.velocity = moveDirection;
 
-        MoveAnim();
+        //MoveAnim();
     }
 
     void Jump()
@@ -80,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse); // è„å¸Ç´ÇÃóÕÇí«â¡
             isGrounded = false;
-            JumpAnim();
+            //JumpAnim();
         }
     }
 
@@ -93,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void Raycast()
+    /*void Raycast()
     {
         Vector3 rayOrigin = transform.position;
         Vector3 rayDirection = Vector3.down;
@@ -102,19 +103,22 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         isGrounded = Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength) ? true : false;
     }
+    */
 
-    void MoveAnim()
+    /*void MoveAnim()
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         animator.SetFloat("WalkSpd", h);
         animator.SetFloat("WalkSpd", v);
     }
-
+    */
+    /*
     void JumpAnim()
     {
         //animator.SetBool("isJump", true);
     }
+    */
 
     void OnCollisionEnter(Collision collision)
     {
