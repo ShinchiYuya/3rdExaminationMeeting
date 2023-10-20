@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _jumpForce = 15f; // ìKêÿÇ»ílÇ…í≤êÆ
     [SerializeField] float _gravPower = 10f;
     [SerializeField] Transform player;
-    [SerializeField] Animation atkAnim;
+    //[SerializeField] Animation atkAnim;
 
     bool isGrounded = true;
     bool atk = false;
@@ -84,15 +84,14 @@ public class PlayerMovement : MonoBehaviour
             //JumpAnim();
         }
     }
-
     void Attack()
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            PlayerAttackCon.Instance.Atk();
-            //animator.SetBool("Attack", true);
+            PlayerAttackCon.Instance.Attack();
         }
     }
+
 
     /*void Raycast()
     {
