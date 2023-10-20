@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     //[SerializeField] Animation atkAnim;
 
     bool isGrounded = true;
-    bool atk = false;
 
     Animator animator;
     Rigidbody _rb;
@@ -23,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Attack();
+        //Attack();
         Gravity();
         Move();
         Jump();
@@ -84,13 +83,13 @@ public class PlayerMovement : MonoBehaviour
             //JumpAnim();
         }
     }
-    void Attack()
-    {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            PlayerAttackCon.Instance.Attack();
-        }
-    }
+    //void Attack()
+    //{
+    //    if (Input.GetButtonDown("Fire1"))
+    //    {
+    //        PlayerAttackCon.Instance.Attack();
+    //    }
+    //}
 
 
     /*void Raycast()
