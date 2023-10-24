@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _jumpForce = 15f; // 適切な値に調整
     [SerializeField] float _gravPower = 10f;
     [SerializeField] Transform player;
-    //[SerializeField] Animation atkAnim;
 
     bool isGrounded = true;
 
@@ -22,12 +21,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        //Attack();
         Gravity();
         Move();
         Jump();
-        //Raycast();
-        //MoveAnim();
     }
 
 
@@ -80,47 +76,26 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse); // 上向きの力を追加
             isGrounded = false;
-            //JumpAnim();
         }
     }
-    //void Attack()
-    //{
-    //    if (Input.GetButtonDown("Fire1"))
-    //    {
-    //        PlayerAttackCon.Instance.Attack();
-    //    }
-    //}
 
-
-    /*void Raycast()
+    void LateUpdate()
     {
-        Vector3 rayOrigin = transform.position;
-        Vector3 rayDirection = Vector3.down;
-        float rayLength = .5f;
-
-        RaycastHit hit;
-        isGrounded = Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength) ? true : false;
+        // アニメーションの処理
+        if (animator)
+        {
+            animator.SetBool("IsGrounded", isGrounded);
+            Vector3 walkSpeed = _rb.velocity;
+            walkSpeed.y = 0;
+            animator.SetFloat("Speed", walkSpeed.magnitude);
+        }
     }
-    */
 
-    /*void MoveAnim()
+    void OnTriggerEnter(Collider other)
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        animator.SetFloat("WalkSpd", h);
-        animator.SetFloat("WalkSpd", v);
-    }
-    */
-    /*
-    void JumpAnim()
-    {
-        //animator.SetBool("isJump", true);
-    }
-    */
-
-    void OnCollisionEnter(Collision collision)
-    {
-        isGrounded = collision.gameObject.CompareTag("Ground") ? true : false;
-        //if (isGrounded)  animator.SetBool("isJump", false);
+        if (CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
     }
 }
