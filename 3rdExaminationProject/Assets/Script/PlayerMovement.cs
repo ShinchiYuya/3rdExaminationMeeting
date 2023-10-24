@@ -7,10 +7,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _gravPower = 10f;
     [SerializeField] Transform player;
 
+    public LayerMask groundLayer;
     bool isGrounded = true;
 
     Animator animator;
     Rigidbody _rb;
+
+    public bool IsGrounded
+    {
+        get { return isGrounded; }
+    }
 
     void Start()
     {
@@ -24,6 +30,18 @@ public class PlayerMovement : MonoBehaviour
         Gravity();
         Move();
         Jump();
+        Raycast();
+    }
+
+    void Raycast()
+    {
+        Ray ray = new Ray(transform.position, Vector3.down);
+        RaycastHit hit;
+        // レイが地面と交差しているかどうかを検出
+        isGrounded = Physics.Raycast(ray, out hit, 0.1f, groundLayer);
+        // デバッグ用に可視化
+        Debug.DrawRay(transform.position, Vector3.down * 0.1f, isGrounded ? Color.green : Color.red);
+        isGrounded = true;
     }
 
 
