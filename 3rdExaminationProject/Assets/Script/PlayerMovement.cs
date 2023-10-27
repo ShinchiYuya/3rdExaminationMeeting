@@ -6,7 +6,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _jumpForce = 15f; // 適切な値に調整
     [SerializeField] float _gravPower = 10f;
     [SerializeField] Transform player;
-
+    [SerializeField] int maxJumpCount = 2;
+    [SerializeField] float coolTime = 1.0f;
+    
+    float timer= 0f;
+    int jumpCount = 0;
     public LayerMask groundLayer;
     bool isGrounded = true;
 
@@ -39,8 +43,6 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         // レイが地面と交差しているかどうかを検出
         isGrounded = Physics.Raycast(ray, out hit, 0.1f, groundLayer);
-        // デバッグ用に可視化
-        Debug.DrawRay(transform.position, Vector3.down * 0.1f, isGrounded ? Color.green : Color.red);
         isGrounded = true;
     }
 
@@ -90,10 +92,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) // Space を使用して1回だけジャンプできるようにする
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumpCount && timer >= coolTime) // Space を使用して1回だけジャンプできるようにする
         {
+            timer = 0;
             _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse); // 上向きの力を追加
             isGrounded = false;
+            jumpCount++;
+        }
+        else
+        {
+            timer += Time.deltaTime;
         }
     }
 
@@ -109,11 +117,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider collision)
     {
-        if (CompareTag("Ground"))
+        if (collision.gameObject.tag == "Ground")
         {
             isGrounded = true;
+            jumpCount = 0;
         }
     }
 }
