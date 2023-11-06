@@ -46,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = true;
     }
 
-
     void Gravity()
     {
         float gravity = _gravPower;
@@ -92,18 +91,22 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumpCount && timer >= coolTime) // Space を使用して1回だけジャンプできるようにする
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space) && jumpCount <= maxJumpCount && timer >= coolTime) // Space を使用して1回だけジャンプできるようにする
         {
             timer = 0;
             _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse); // 上向きの力を追加
-            isGrounded = false;
             jumpCount++;
+            isGrounded = false;
+            Debug.Log("1");
+            jumpCount = 0;
         }
         else
         {
             timer += Time.deltaTime;
         }
     }
+
+
 
     void LateUpdate()
     {
