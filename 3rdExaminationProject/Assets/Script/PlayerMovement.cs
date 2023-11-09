@@ -122,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
         if (animator)
         {
             animator.SetBool("IsGrounded", isGrounded);
+            Debug.Log("JumpAnim");
             Vector3 walkSpeed = _rb.velocity;
             walkSpeed.y = 0;
             animator.SetFloat("Speed", walkSpeed.magnitude);
