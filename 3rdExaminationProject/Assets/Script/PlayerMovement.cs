@@ -67,7 +67,6 @@ public class PlayerMovement : MonoBehaviour
         // カメラは斜め下に向いているので、Y 軸の値を 0 にして「XZ 平面上のベクトル」にする
         dir.y = 0;
         // 移動の入力がない時は回転させない。入力がある時はその方向にキャラクターを向ける。
-        //if (dir != Vector3.zero) this.transform.forward = dir;
         if (dir != Vector3.zero)
         {
             this.transform.forward = dir.normalized; // 移動方向に基づいて向きを変更
@@ -75,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
             dir.y = _rb.velocity.y;
             _rb.velocity = dir;
         }
+
         dir = dir.normalized * _speed;
         dir.y = _rb.velocity.y;
         _rb.velocity = dir;
@@ -95,8 +95,6 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.x *= _speed;
         moveDirection.z *= _speed;
         _rb.velocity = moveDirection;
-
-        //MoveAnim();
     }
 
     void Jump()
@@ -107,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
             _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse); // 上向きの力を追加
             jumpCount++;
             isGrounded = false;
-            Debug.Log("1");
+            Debug.Log("Jump");
             jumpCount = 0;
         }
         else
