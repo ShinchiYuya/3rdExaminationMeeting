@@ -1,5 +1,8 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Animator))]
+
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float _speed = 10f;
@@ -8,8 +11,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] int maxJumpCount = 2;
     [SerializeField] float coolTime = 1.0f;
-    
-    float timer= 0f;
+
+    float timer = 0f;
     int jumpCount = 0;
     public LayerMask groundLayer;
     bool isGrounded = true;
@@ -64,7 +67,14 @@ public class PlayerMovement : MonoBehaviour
         // カメラは斜め下に向いているので、Y 軸の値を 0 にして「XZ 平面上のベクトル」にする
         dir.y = 0;
         // 移動の入力がない時は回転させない。入力がある時はその方向にキャラクターを向ける。
-        if (dir != Vector3.zero) this.transform.forward = dir;
+        //if (dir != Vector3.zero) this.transform.forward = dir;
+        if (dir != Vector3.zero)
+        {
+            this.transform.forward = dir.normalized; // 移動方向に基づいて向きを変更
+            dir = dir.normalized * _speed;
+            dir.y = _rb.velocity.y;
+            _rb.velocity = dir;
+        }
         dir = dir.normalized * _speed;
         dir.y = _rb.velocity.y;
         _rb.velocity = dir;
