@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 public class Digging
 {
     // 2ŸŒ³”z—ñ‚Ì–À˜Hî•ñ
