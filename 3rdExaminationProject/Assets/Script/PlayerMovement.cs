@@ -8,27 +8,27 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _speed = 10f;
     [SerializeField] float _jumpForce = 15f; // 適切な値に調整
     [SerializeField] float _gravPower = 10f;
-    [SerializeField] Transform player;
-    [SerializeField] int maxJumpCount = 2;
-    [SerializeField] float coolTime = 1.0f;
+    [SerializeField] Transform _player;
+    [SerializeField] int _maxJumpCount = 2;
+    [SerializeField] float _coolTime = 1.0f;
 
-    float timer = 0f;
-    int jumpCount = 0;
-    public LayerMask groundLayer;
-    bool isGrounded = true;
+    float _timeCount = 0f;
+    int _jumpCount = 0;
+    public LayerMask _groundLayer;
+    bool _isGrounded = true;
 
-    Animator animator;
+    Animator _animator;
     Rigidbody _rb;
 
     public bool IsGrounded
     {
-        get { return isGrounded; }
+        get { return _isGrounded; }
     }
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         _rb.useGravity = true; // 重力を有効にする
     }
 
@@ -45,8 +45,8 @@ public class PlayerMovement : MonoBehaviour
         Ray ray = new Ray(transform.position, Vector3.down);
         RaycastHit hit;
         // レイが地面と交差しているかどうかを検出
-        isGrounded = Physics.Raycast(ray, out hit, 0.1f, groundLayer);
-        isGrounded = true;
+        _isGrounded = Physics.Raycast(ray, out hit, 0.1f, _groundLayer);
+        _isGrounded = true;
     }
 
     void Gravity()
@@ -99,33 +99,32 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space) && jumpCount <= maxJumpCount && timer >= coolTime) // Space を使用して1回だけジャンプできるようにする
+        if (_isGrounded && Input.GetKeyDown(KeyCode.Space) && _jumpCount <= _maxJumpCount && _timeCount >= _coolTime) // Space を使用して1回だけジャンプできるようにする
         {
-            timer = 0;
+            _timeCount = 0;
             _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse); // 上向きの力を追加
-            jumpCount++;
-            isGrounded = false;
+            _jumpCount++;
+            _isGrounded = false;
             Debug.Log("Jump");
-            jumpCount = 0;
+            _jumpCount = 0;
         }
         else
         {
-            timer += Time.deltaTime;
+            _timeCount += Time.deltaTime;
         }
     }
-
 
 
     void LateUpdate()
     {
         // アニメーションの処理
-        if (animator)
+        if (_animator)
         {
-            animator.SetBool("IsGrounded", isGrounded);
+            _animator.SetBool("IsGrounded", _isGrounded);
             Debug.Log("JumpAnim");
             Vector3 walkSpeed = _rb.velocity;
             walkSpeed.y = 0;
-            animator.SetFloat("Speed", walkSpeed.magnitude);
+            _animator.SetFloat("Speed", walkSpeed.magnitude);
         }
     }
 
@@ -133,8 +132,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground")
         {
-            isGrounded = true;
-            jumpCount = 0;
+            _isGrounded = true;
+            _jumpCount = 0;
         }
     }
 }
