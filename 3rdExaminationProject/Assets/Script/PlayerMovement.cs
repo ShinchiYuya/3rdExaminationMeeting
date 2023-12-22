@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded && Input.GetKeyDown(KeyCode.Space) && _jumpCount <= _maxJumpCount && _timeCount >= _coolTime) // Space を使用して1回だけジャンプできるようにする
         {
             _timeCount = 0;
-            _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse); // 上向きの力を追加
+            _rb.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange); // 上向きの力を追加
             _jumpCount++;
             _isGrounded = false;
             Debug.Log("Jump");
