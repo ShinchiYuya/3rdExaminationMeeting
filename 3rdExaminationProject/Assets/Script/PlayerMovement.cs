@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _gravPower = 10f;
     [SerializeField] Transform _player;
     [SerializeField] int _maxJumpCount = 2;
-    [SerializeField] float _coolTime = 1.0f;
+    [SerializeField] float _coolTime = .5f;
 
     float _timeCount = 0f;
     int _jumpCount = 0;
